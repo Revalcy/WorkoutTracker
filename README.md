@@ -25,6 +25,19 @@ The goal is to build a workout tracking application while improving programming 
 * Calculate exercise volume
 * Calculate total workout volume
 * View workout statistics
+* Validate user input
+
+## Input Validation
+
+The application validates user input to prevent invalid data and program crashes.
+
+* Validate integer input
+* Validate positive integers
+* Validate decimal number input
+* Validate positive decimal numbers
+* Prevent empty text input
+* Validate date input
+* Handle invalid menu and search choices
 
 ## Model Classes
 
@@ -81,3 +94,5 @@ The current application uses three main model classes:
 ## Status
 
 Version 1 Completed
+
+Currently improving the application and preparing for Version 2.
