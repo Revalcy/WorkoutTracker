@@ -6,54 +6,78 @@ A Java console application for tracking workouts, exercises, and sets.
 
 This project is built to practice:
 
-- Java
-- Object-Oriented Programming
-- Software design
-- Git workflow
+* Java
+* Object-Oriented Programming
+* Software design
+* Git workflow
 
 The goal is to build a workout tracking application while improving programming and software development skills.
 
 ## Current Features
 
-- Create workout objects
-- Add exercises to workouts
-- Record workout sets with weight and repetitions
-- Calculate exercise volume
-- Calculate total workout volume
+* Create and manage workouts
+* Add exercises to workouts
+* Record workout sets with weight and repetitions
+* View saved workouts
+* Delete workouts
+* Search workouts by exercise name
+* Search workouts by date
+* Calculate exercise volume
+* Calculate total workout volume
+* View workout statistics
 
 ## Model Classes
 
 The current application uses three main model classes:
 
-- **Workout**
-  - Stores workout name and date
-  - Manages a list of exercises
-  - Calculates total workout volume
+* **Workout**
 
-- **Exercise**
-  - Stores exercise name
-  - Manages a list of workout sets
-  - Calculates total exercise volume
+  * Stores workout name and date
+  * Manages a list of exercises
+  * Calculates total workout volume
 
-- **WorkoutSet**
-  - Stores weight and repetitions for an individual set
+* **Exercise**
+
+  * Stores exercise name
+  * Manages a list of workout sets
+  * Calculates total exercise volume
+
+* **WorkoutSet**
+
+  * Stores weight and repetitions for an individual set
+
+## Project Structure
+
+* **app**
+
+  * Contains the main application entry point
+
+* **model**
+
+  * Contains workout-related data classes
+
+* **service**
+
+  * Contains workout management logic
+
+* **ui**
+
+  * Contains the console user interface
 
 ## Planned Features
 
-- Build workout management service layer
-- Add console user interface
-- Save workout history
-- Add database support
-- Build REST API with Spring Boot
-- Create a frontend application
-- Add workout analytics
+* Save workout history
+* Add database support
+* Build REST API with Spring Boot
+* Create a frontend application
+* Add advanced workout analytics
 
 ## Technologies
 
-- Java
-- Git
-- GitHub
+* Java
+* Git
+* GitHub
 
 ## Status
 
-In Development
+Version 1 Completed

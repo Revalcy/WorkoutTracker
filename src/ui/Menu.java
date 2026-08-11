@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import service.WorkoutTracker;
 import model.Exercise;
@@ -22,7 +23,7 @@ public class Menu {
         while(true){
             displayMenu();
 
-            int choice = Integer.valueOf(scanner.nextLine());
+            int choice = getIntegerInput();
 
             switch(choice){
                 case 1 :
@@ -64,30 +65,30 @@ public class Menu {
 
     public void addWorkout(){
         System.out.println("Enter workout name: ");
-        String workoutName = scanner.nextLine();
+        String workoutName = getNonEmptyInput();
 
         Workout workout = new Workout(workoutName);
 
         System.out.println("How many exercises? ");
-        int exerciseCount = Integer.valueOf(scanner.nextLine());
+        int exerciseCount = getPositiveIntegerInput();
 
         for(int i = 0; i < exerciseCount; i++){
             System.out.println("Enter exercise name: ");
-            String exerciseName = scanner.nextLine();
+            String exerciseName = getNonEmptyInput();
 
             Exercise exercise = new Exercise(exerciseName);
 
             System.out.println("How many sets? ");
-            int setCount = Integer.valueOf(scanner.nextLine());
+            int setCount = getPositiveIntegerInput();
 
             for(int j = 0; j < setCount; j++){
                 System.out.println("Set " + (j + 1));
 
                 System.out.println("Weight: ");
-                double weight = Double.valueOf(scanner.nextLine());
+                double weight = getPositiveDoubleInput();
 
                 System.out.println("Reps: ");
-                int reps = Integer.valueOf(scanner.nextLine());
+                int reps = getPositiveIntegerInput();
 
                 WorkoutSet set = new WorkoutSet(weight, reps);
 
@@ -146,7 +147,7 @@ public class Menu {
         }
 
         System.out.println("Enter workout number: ");
-        int index = Integer.valueOf(scanner.nextLine());
+        int index = getIntegerInput();
 
         if(tracker.removeWorkout(index)){
             System.out.println("Workout deleted.");
@@ -161,11 +162,11 @@ public class Menu {
 
         System.out.println("1. Search by Exercise");
         System.out.println("2. Search by Date");
-        int choice = Integer.valueOf(scanner.nextLine());
+        int choice = getIntegerInput();
 
         if(choice == 1){
             System.out.println("Enter exercise name: ");
-            String exerciseName = scanner.nextLine();
+            String exerciseName = getNonEmptyInput();
 
             ArrayList<Workout> results = tracker.searchByExercise(exerciseName);
 
@@ -181,8 +182,7 @@ public class Menu {
 
         } else if (choice == 2){
             System.out.println("Enter date (YYYY-MM-DD): ");
-            String input = scanner.nextLine();
-            LocalDate date = LocalDate.parse(input);
+            LocalDate date = getDateInput();
 
             Workout workout = tracker.searchByDate(date);
 
@@ -192,6 +192,8 @@ public class Menu {
                 System.out.println("Found workouts: ");
                 System.out.println(workout.getWorkoutName());
             }
+        } else {
+            System.out.println("Invalid choice.");
         }
     }
 
@@ -203,5 +205,74 @@ public class Menu {
         System.out.println("Total exercises: " + tracker.getTotalExercises());
         System.out.println("Total sets: " + tracker.getTotalSets());
         System.out.println("Total volume: " + tracker.getTotalVolume());
+    }
+
+    private int getIntegerInput(){
+        while(true){
+            try{
+                return Integer.valueOf(scanner.nextLine());
+            } catch(NumberFormatException e){
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
+
+    private int getPositiveIntegerInput(){
+        while(true){
+            int number = getIntegerInput();
+
+            if(number <= 0){
+                System.out.println("Please enter a positive number.");
+            } else {
+                return number;
+            }
+        }
+    }
+
+    private double getDoubleInput(){
+        while(true){
+            try{
+                return Double.valueOf(scanner.nextLine());
+            } catch(NumberFormatException e){
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
+
+    private double getPositiveDoubleInput(){
+        while(true){
+            double number = getDoubleInput();
+
+            if(number <= 0){
+                System.out.println("Please enter a positive number.");
+            } else {
+                return number;
+            }
+        }
+    }
+
+    private String getNonEmptyInput(){
+        while(true){
+
+            String input = scanner.nextLine();
+
+            if(input.isEmpty()){
+                System.out.println("Input cannot be empty.");
+            } else {
+                return input;
+            }
+        }
+    }
+
+    private LocalDate getDateInput(){
+        while(true){
+            try{
+                String input = scanner.nextLine();
+                LocalDate date = LocalDate.parse(input);
+                return date;
+            } catch(DateTimeParseException e){
+                System.out.println("Please enter a valid date.");
+            }
+        }
     }
 }
