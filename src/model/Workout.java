@@ -2,16 +2,22 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 public class Workout {
     private LocalDate date;
-    private ArrayList<Exercise> exercises;
+    private List<Exercise> exercises;
     private String workoutName;
 
-    public Workout(String workoutName){
+    public Workout(String workoutName, LocalDate date){
         this.workoutName = workoutName;
-        this.date = LocalDate.now();
+        this.date = date;
         this.exercises = new ArrayList<>();
+    }
+
+    public Workout(String workoutName){
+        this(workoutName, LocalDate.now());
     }
 
     public String getWorkoutName(){
@@ -22,8 +28,12 @@ public class Workout {
         return date;
     }
 
-    public ArrayList<Exercise> getExercises(){
-        return exercises;
+    public void setDate(LocalDate date){
+        this.date = date;
+    }
+
+    public List<Exercise> getExercises(){
+        return Collections.unmodifiableList(exercises);
     }
 
     public void setWorkoutName(String workoutName){

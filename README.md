@@ -24,7 +24,7 @@ The goal is to build a workout tracking application while improving programming 
 * Search workouts by date
 * Calculate exercise volume
 * Calculate total workout volume
-* View workout statistics
+* View workout statistics, including average workout volume and most performed exercise
 * Validate user input
 
 ## Input Validation
@@ -46,13 +46,17 @@ The current application uses three main model classes:
 * **Workout**
 
   * Stores workout name and date
+  * Supports creating workouts with a supplied date
+  * Supports editing the workout date
   * Manages a list of exercises
+  * Protects its exercise collection from external modification
   * Calculates total workout volume
 
 * **Exercise**
 
   * Stores exercise name
   * Manages a list of workout sets
+  * Protects its set collection from external modification
   * Calculates total exercise volume
 
 * **WorkoutSet**
@@ -71,19 +75,26 @@ The current application uses three main model classes:
 
 * **service**
 
-  * Contains workout management logic
+  * Contains workout management, search, and statistics logic
 
 * **ui**
 
   * Contains the console user interface
 
-## Planned Features
+## Version 2 Progress
 
-* Save workout history
-* Add database support
-* Build REST API with Spring Boot
-* Create a frontend application
-* Add advanced workout analytics
+Completed:
+
+* Encapsulated workout, exercise, and set collections with unmodifiable views
+* Added explicit workout-date support
+* Updated date searches to return all workouts on a matching date
+* Added average workout volume statistics
+* Added most performed exercise statistics
+
+Remaining:
+
+* Edit existing workouts, exercises, and sets
+* Save and load workout history using JSON
 
 ## Technologies
 
@@ -93,6 +104,4 @@ The current application uses three main model classes:
 
 ## Status
 
-Version 1 Completed
-
-Currently improving the application and preparing for Version 2.
+Version 2 in progress. Model and workout-tracker improvements are complete; persistence and workout editing are next.

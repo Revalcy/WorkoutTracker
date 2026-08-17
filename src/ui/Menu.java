@@ -1,6 +1,6 @@
 package ui;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -168,7 +168,7 @@ public class Menu {
             System.out.println("Enter exercise name: ");
             String exerciseName = getNonEmptyInput();
 
-            ArrayList<Workout> results = tracker.searchByExercise(exerciseName);
+            List<Workout> results = tracker.searchByExercise(exerciseName);
 
             if(results.isEmpty()){
                 System.out.println("No workouts found.");
@@ -184,13 +184,16 @@ public class Menu {
             System.out.println("Enter date (YYYY-MM-DD): ");
             LocalDate date = getDateInput();
 
-            Workout workout = tracker.searchByDate(date);
+            List<Workout> results = tracker.searchByDate(date);
 
-            if(workout == null){
+            if(results.isEmpty()){
                 System.out.println("No workouts found.");
             } else {
                 System.out.println("Found workouts: ");
-                System.out.println(workout.getWorkoutName());
+                for(Workout workout : results){
+                    System.out.println(workout.getWorkoutName());
+                    System.out.println(workout.getDate());
+                }
             }
         } else {
             System.out.println("Invalid choice.");
