@@ -1,14 +1,23 @@
-package model;
+package com.workouttracker.model;
 
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Exercise {
     private String name;
     private ArrayList<WorkoutSet> sets;
 
+    @JsonIgnore 
+    private double totalVolume;
+
     public Exercise(String name){
         this.name = name;
         sets = new ArrayList<>();
+    }
+
+    public Exercise(){
+
     }
 
     public String getName(){

@@ -1,24 +1,39 @@
-package service;
+package com.workouttracker.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.workouttracker.model.Exercise;
+import com.workouttracker.model.Workout;
+import com.workouttracker.storage.WorkoutStorage;
+
 import java.util.Collections;
 import java.util.HashMap;
 
-import model.Exercise;
-import model.Workout;
-
 public class WorkoutTracker {
     private List<Workout> workouts;
+    private WorkoutStorage storage;
     
     public WorkoutTracker(){
         this.workouts = new ArrayList<>();
     }
 
+    public WorkoutTracker(List<Workout> workouts, WorkoutStorage storage){
+        this.workouts = new ArrayList<>(workouts);
+        this.storage = storage;
+    }
+
     public void addWorkout(Workout workout){
-        this.workouts.add(workout);
+        try{
+            this.workouts.add(workout);
+            storage.saveJson(workouts);
+        } catch(IOException e){
+            this.workouts.remove(workout);
+            System.out.println("Failed to save workout: " + e.getMessage());
+        }
     }
 
     public boolean removeWorkout(int index){
@@ -26,8 +41,17 @@ public class WorkoutTracker {
             return false;
         }
 
+        Workout removedWorkout = workouts.get(index);
         workouts.remove(index);
-        return true;
+
+        try{
+            storage.saveJson(workouts);
+            return true;
+        } catch(IOException e){
+            workouts.add(index, removedWorkout);
+            System.out.println("Failed to update save file: " + e.getMessage());
+            return false;
+        }
     }
 
     public Workout getWorkout(int index){

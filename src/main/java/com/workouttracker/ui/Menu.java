@@ -1,14 +1,15 @@
-package ui;
+package com.workouttracker.ui;
 
 import java.util.List;
 import java.util.Scanner;
+
+import com.workouttracker.model.Exercise;
+import com.workouttracker.model.Workout;
+import com.workouttracker.model.WorkoutSet;
+import com.workouttracker.service.WorkoutTracker;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
-import service.WorkoutTracker;
-import model.Exercise;
-import model.Workout;
-import model.WorkoutSet;
 
 public class Menu {
     private Scanner scanner;

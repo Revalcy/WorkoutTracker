@@ -1,4 +1,4 @@
-package model;
+package com.workouttracker.model;
 
 public class WorkoutSet{
     private double weight;
@@ -7,6 +7,10 @@ public class WorkoutSet{
     public WorkoutSet(double weight, int reps){
         this.weight = weight;
         this.reps = reps;
+    }
+
+    public WorkoutSet(){
+        
     }
 
     public double getWeight(){

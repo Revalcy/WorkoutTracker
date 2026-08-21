@@ -1,14 +1,20 @@
-package model;
+package com.workouttracker.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Collections;
 
 public class Workout {
     private LocalDate date;
     private List<Exercise> exercises;
     private String workoutName;
+
+    @JsonIgnore
+    private double workoutVolume;
 
     public Workout(String workoutName, LocalDate date){
         this.workoutName = workoutName;
@@ -18,6 +24,10 @@ public class Workout {
 
     public Workout(String workoutName){
         this(workoutName, LocalDate.now());
+    }
+
+    public Workout(){
+
     }
 
     public String getWorkoutName(){
