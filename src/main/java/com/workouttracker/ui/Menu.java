@@ -209,6 +209,8 @@ public class Menu {
         System.out.println("Total exercises: " + tracker.getTotalExercises());
         System.out.println("Total sets: " + tracker.getTotalSets());
         System.out.println("Total volume: " + tracker.getTotalVolume());
+        System.out.println("Average Workout Volume: " + tracker.getAverageWorkoutVolume());
+        System.out.println("Most Performed Exercise: " + tracker.getMostPerformedExercise());
     }
 
     private int getIntegerInput(){
