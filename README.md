@@ -11,6 +11,7 @@ This project is built to practice:
 * Software design
 * Git workflow
 * Persistent data storage
+* Application architecture
 
 The goal is to build a workout tracking application while improving programming and software development skills.
 
@@ -60,6 +61,27 @@ workouts.json
 When the application starts, previously saved workouts are loaded from `workouts.json`.
 
 When workouts are added or deleted, the updated workout list is automatically saved.
+
+If saving fails while adding or deleting a workout, the application rolls back the change so the in-memory data remains consistent with the saved data.
+
+## Workout Statistics
+
+The application provides several statistics to help analyze workout activity:
+
+* Total number of workouts
+* Total number of exercises
+* Total number of sets
+* Total workout volume
+* Average workout volume
+* Most performed exercise
+
+Workout volume is calculated using:
+
+```text
+Volume = Weight × Repetitions
+```
+
+The total workout volume is calculated by adding the volume of all exercises and sets within a workout.
 
 ## Input Validation
 
@@ -113,19 +135,11 @@ src/main/java/
 
 ### Package Responsibilities
 
-* **app** — Contains the main application entry point
-* **model** — Contains workout-related data classes
-* **service** — Contains workout management and application logic
-* **storage** — Handles persistent workout data
-* **ui** — Contains the console user interface
-
-## Planned Features
-
-* Add additional workout management features
-* Add database support
-* Build a REST API with Spring Boot
-* Create a frontend application
-* Add advanced workout analytics
+* **`app`** — Contains the main application entry point
+* **`model`** — Contains workout-related data classes
+* **`service`** — Contains workout management and application logic
+* **`storage`** — Handles persistent workout data
+* **`ui`** — Contains the console user interface
 
 ## Technologies
 
@@ -136,11 +150,15 @@ src/main/java/
 * GitHub
 * JSON
 
-## Status
+## Project Status
 
 **Version 1 — Completed**
 
-**Version 2 — In Progress**
+Version 1 established the core workout tracking functionality, including workout management, exercises, sets, searching, volume calculations, and input validation.
+
+**Version 2 — Completed**
+
+Version 2 added persistent JSON storage and improved workout statistics.
 
 ### Version 2 Progress
 
@@ -149,5 +167,17 @@ src/main/java/
 * [x] Deserialize workouts from JSON
 * [x] Load workouts when the application starts
 * [x] Save changes when workouts are added or deleted
+* [x] Handle storage errors and maintain data consistency
 * [x] Improve workout statistics
-* [ ] Add additional Version 2 features
+* [x] Calculate average workout volume
+* [x] Find the most performed exercise
+
+## Planned Features
+
+Future versions may include:
+
+* Add additional workout management features
+* Add database support
+* Build a REST API with Spring Boot
+* Create a frontend application
+* Add advanced workout analytics
