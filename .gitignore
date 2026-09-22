@@ -15,3 +15,7 @@ build/
 
 # Logs
 *.log
+
+# Generated workout data
+workouts.json
+test-workouts.json
