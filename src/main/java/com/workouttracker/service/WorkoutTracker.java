@@ -13,6 +13,8 @@ import com.workouttracker.storage.WorkoutStorage;
 import java.util.Collections;
 import java.util.HashMap;
 
+import com.workouttracker.model.WorkoutSet;
+
 public class WorkoutTracker {
     private List<Workout> workouts;
     private WorkoutStorage storage;
@@ -198,6 +200,47 @@ public class WorkoutTracker {
             return true;
         } catch (IOException e) {
             exercise.setName(oldName);
+            System.out.println("Failed to update save file: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean editWorkoutSet(int workoutIndex, int exerciseIndex, int workoutSetIndex, double newWeights, int newReps){
+
+        if(workoutIndex < 0 || workoutIndex >= getWorkoutCount()){
+            return false;
+        }
+
+        Workout workout = getWorkout(workoutIndex);
+
+        if(exerciseIndex < 0 || exerciseIndex >= workout.getExercises().size()){
+            return false;
+        }
+
+        Exercise exercise = workout.getExercises().get(exerciseIndex);
+
+        if(workoutSetIndex < 0 || workoutSetIndex >= exercise.getSets().size()){
+            return false;
+        }
+
+        if(newWeights <= 0 || newReps <= 0){
+            return false;
+        }
+
+        WorkoutSet workoutSet = exercise.getSets().get(workoutSetIndex);
+
+        double oldWeights = workoutSet.getWeight();
+        int oldReps = workoutSet.getReps();
+        
+        workoutSet.setWeight(newWeights);
+        workoutSet.setReps(newReps);
+
+        try{
+            storage.saveJson(workouts);
+            return true;
+        } catch(IOException e){
+            workoutSet.setWeight(oldWeights);
+            workoutSet.setReps(oldReps);
             System.out.println("Failed to update save file: " + e.getMessage());
             return false;
         }

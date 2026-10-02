@@ -237,7 +237,7 @@ Version 3 focuses on workout management improvements, advanced analytics, and au
 * [x] Test JSON save and load functionality
 * [x] Verify workout statistics with automated tests
 * [x] Add workout editing functionality
-* [ ] Add exercise and set editing functionality
+* [x] Add exercise and set editing functionality
 * [ ] Add advanced workout analytics
 * [ ] Add additional edge-case and error-handling tests
 * [ ] Refactor and clean up the project
