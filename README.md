@@ -236,7 +236,7 @@ Version 3 focuses on workout management improvements, advanced analytics, and au
 * [x] Create tests for `WorkoutStorage`
 * [x] Test JSON save and load functionality
 * [x] Verify workout statistics with automated tests
-* [ ] Add workout editing functionality
+* [x] Add workout editing functionality
 * [ ] Add exercise and set editing functionality
 * [ ] Add advanced workout analytics
 * [ ] Add additional edge-case and error-handling tests

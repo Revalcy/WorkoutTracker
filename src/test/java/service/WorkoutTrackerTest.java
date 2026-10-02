@@ -1,11 +1,15 @@
 package service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workouttracker.model.Exercise;
 import com.workouttracker.model.Workout;
 import com.workouttracker.model.WorkoutSet;
 import com.workouttracker.service.WorkoutTracker;
+import com.workouttracker.storage.WorkoutStorage;
+
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WorkoutTrackerTest {
     @Test
-    void shouldReturnWorkoutCount(){
+    void shouldReturnWorkoutCount() {
         Workout workout1 = new Workout("Push Day");
         Workout workout2 = new Workout("Pull Day");
 
@@ -29,7 +33,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldSearchByExercise(){
+    void shouldSearchByExercise() {
         Workout pushDay = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -53,7 +57,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldSearchByDate(){
+    void shouldSearchByDate() {
         LocalDate date = LocalDate.of(2026, 8, 26);
 
         Workout workout1 = new Workout("Push Day", date);
@@ -72,7 +76,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldCalculateTotalExercises(){
+    void shouldCalculateTotalExercises() {
         Workout pushDay = new Workout("Push Day");
 
         pushDay.addExercise(new Exercise("Bench Press"));
@@ -92,7 +96,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldCalculateTotalSets(){
+    void shouldCalculateTotalSets() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -114,7 +118,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldCalculateTotalVolume(){
+    void shouldCalculateTotalVolume() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -133,7 +137,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldCalculateAverageWorkoutVolume(){
+    void shouldCalculateAverageWorkoutVolume() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -159,7 +163,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldFindMostPerformedExercise(){
+    void shouldFindMostPerformedExercise() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -184,8 +188,55 @@ public class WorkoutTrackerTest {
         workouts.add(workout2);
 
         WorkoutTracker tracker = new WorkoutTracker(workouts, null);
-        
+
         assertEquals("Bench Press", tracker.getMostPerformedExercise());
 
+    }
+
+    @Test
+    void shouldEditWorkout() {
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+
+        Exercise benchPress = new Exercise("Bench Press");
+        benchPress.addSet(new WorkoutSet(135, 10));
+        benchPress.addSet(new WorkoutSet(145, 8));
+        workout.addExercise(benchPress);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+        boolean result = tracker.editWorkout(0, "Chest Day", LocalDate.of(2026, 9, 29));
+
+        assertEquals("Chest Day", workout.getWorkoutName());
+        assertEquals(LocalDate.of(2026, 9, 29), workout.getDate());
+        assertEquals(true, result);
+    }
+
+    @Test
+    void shouldEditExercise() {
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+        Exercise exercise = new Exercise("Bench Press");
+        exercise.addSet(new WorkoutSet(135, 10));
+        workout.addExercise(exercise);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+        boolean result = tracker.editExercise(0, 0, "Shoulder Press");
+
+        assertEquals(true, result);
+        assertEquals("Shoulder Press", exercise.getName());
     }
 }
