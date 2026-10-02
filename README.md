@@ -192,7 +192,7 @@ src/
 
 ## Technologies
 
-* Java 11
+* Java 25
 * Jackson
 * JUnit 5
 * Maven
