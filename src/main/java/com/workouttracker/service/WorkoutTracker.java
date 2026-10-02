@@ -16,66 +16,66 @@ import java.util.HashMap;
 public class WorkoutTracker {
     private List<Workout> workouts;
     private WorkoutStorage storage;
-    
-    public WorkoutTracker(){
+
+    public WorkoutTracker() {
         this.workouts = new ArrayList<>();
     }
 
-    public WorkoutTracker(List<Workout> workouts, WorkoutStorage storage){
+    public WorkoutTracker(List<Workout> workouts, WorkoutStorage storage) {
         this.workouts = new ArrayList<>(workouts);
         this.storage = storage;
     }
 
-    public void addWorkout(Workout workout){
-        try{
+    public void addWorkout(Workout workout) {
+        try {
             this.workouts.add(workout);
             storage.saveJson(workouts);
-        } catch(IOException e){
+        } catch (IOException e) {
             this.workouts.remove(workout);
             System.out.println("Failed to save workout: " + e.getMessage());
         }
     }
 
-    public boolean removeWorkout(int index){
-        if(index < 0 || index >= workouts.size()) {
+    public boolean removeWorkout(int index) {
+        if (index < 0 || index >= workouts.size()) {
             return false;
         }
 
         Workout removedWorkout = workouts.get(index);
         workouts.remove(index);
 
-        try{
+        try {
             storage.saveJson(workouts);
             return true;
-        } catch(IOException e){
+        } catch (IOException e) {
             workouts.add(index, removedWorkout);
             System.out.println("Failed to update save file: " + e.getMessage());
             return false;
         }
     }
 
-    public Workout getWorkout(int index){
-        if(index < 0 || index >= workouts.size()){
+    public Workout getWorkout(int index) {
+        if (index < 0 || index >= workouts.size()) {
             return null;
         }
 
         return workouts.get(index);
     }
 
-    public List<Workout> getWorkouts(){
+    public List<Workout> getWorkouts() {
         return Collections.unmodifiableList(workouts);
     }
 
-    public int getWorkoutCount(){
+    public int getWorkoutCount() {
         return workouts.size();
     }
 
-    public List<Workout> searchByExercise(String exerciseName){
+    public List<Workout> searchByExercise(String exerciseName) {
         List<Workout> results = new ArrayList<>();
 
-        for(Workout workout : workouts){
-            for(Exercise exercise : workout.getExercises()){
-                if(exercise.getName().equals(exerciseName)){
+        for (Workout workout : workouts) {
+            for (Exercise exercise : workout.getExercises()) {
+                if (exercise.getName().equals(exerciseName)) {
                     results.add(workout);
                     break;
                 }
@@ -85,11 +85,11 @@ public class WorkoutTracker {
         return results;
     }
 
-    public List<Workout> searchByDate(LocalDate date){
+    public List<Workout> searchByDate(LocalDate date) {
         List<Workout> results = new ArrayList<>();
 
-        for(Workout workout : workouts){
-            if(workout.getDate().equals(date)){
+        for (Workout workout : workouts) {
+            if (workout.getDate().equals(date)) {
                 results.add(workout);
             }
         }
@@ -97,21 +97,21 @@ public class WorkoutTracker {
         return results;
     }
 
-    public int getTotalExercises(){
+    public int getTotalExercises() {
         int totalExercises = 0;
 
-        for(Workout workout : workouts){
+        for (Workout workout : workouts) {
             totalExercises += workout.getExercises().size();
         }
 
         return totalExercises;
     }
 
-    public int getTotalSets(){
+    public int getTotalSets() {
         int totalSets = 0;
 
-        for(Workout workout : workouts){
-            for(Exercise exercise : workout.getExercises()){
+        for (Workout workout : workouts) {
+            for (Exercise exercise : workout.getExercises()) {
                 totalSets += exercise.getSets().size();
             }
         }
@@ -119,46 +119,87 @@ public class WorkoutTracker {
         return totalSets;
     }
 
-    public double getTotalVolume(){
+    public double getTotalVolume() {
         double totalVolume = 0;
 
-        for(Workout workout : workouts){
+        for (Workout workout : workouts) {
             totalVolume += workout.getWorkoutVolume();
         }
 
         return totalVolume;
     }
 
-    public double getAverageWorkoutVolume(){
+    public double getAverageWorkoutVolume() {
         double totalAverage = getTotalVolume();
         int count = getWorkoutCount();
 
-        if(count == 0){
+        if (count == 0) {
             return 0;
         }
 
         return totalAverage / count;
     }
 
-    public String getMostPerformedExercise(){
+    public String getMostPerformedExercise() {
         HashMap<String, Integer> map = new HashMap<>();
         int highestCount = -1;
         String performedName = null;
 
-        for(Workout workout : workouts){
-            for(Exercise exercise : workout.getExercises()){
+        for (Workout workout : workouts) {
+            for (Exercise exercise : workout.getExercises()) {
                 map.put(exercise.getName(),
-                map.getOrDefault(exercise.getName(), 0) + exercise.getSets().size());
+                        map.getOrDefault(exercise.getName(), 0) + exercise.getSets().size());
             }
         }
 
-        for(Map.Entry<String, Integer> entry : map.entrySet()){
-            if(entry.getValue() > highestCount){
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > highestCount) {
                 highestCount = entry.getValue();
                 performedName = entry.getKey();
             }
         }
 
         return performedName;
+    }
+
+    public boolean editWorkout(int index, String newName, LocalDate newDate) {
+        if (index < 0 || index >= workouts.size()) {
+            return false;
+        }
+        Workout workout = workouts.get(index);
+        String oldName = workout.getWorkoutName();
+        LocalDate oldDate = workout.getDate();
+        workout.setWorkoutName(newName);
+        workout.setDate(newDate);
+        try {
+            storage.saveJson(workouts);
+            return true;
+        } catch (IOException e) {
+            workout.setWorkoutName(oldName);
+            workout.setDate(oldDate);
+            System.out.println("Failed to update save file: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean editExercise(int workoutIndex, int exerciseIndex, String newName) {
+        if (workoutIndex < 0 || workoutIndex >= getWorkoutCount()) {
+            return false;
+        }
+        Workout workout = getWorkout(workoutIndex);
+        if (exerciseIndex < 0 || exerciseIndex >= workout.getExercises().size()) {
+            return false;
+        }
+        Exercise exercise = workout.getExercises().get(exerciseIndex);
+        String oldName = exercise.getName();
+        exercise.setName(newName);
+        try {
+            storage.saveJson(workouts);
+            return true;
+        } catch (IOException e) {
+            exercise.setName(oldName);
+            System.out.println("Failed to update save file: " + e.getMessage());
+            return false;
+        }
     }
 }
