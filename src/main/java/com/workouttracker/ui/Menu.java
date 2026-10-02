@@ -40,15 +40,18 @@ public class Menu {
                     editExercise();
                     break;
                 case 5:
-                    deleteWorkout();
+                    editWorkoutSet();
                     break;
                 case 6:
-                    searchWorkout();
+                    deleteWorkout();
                     break;
                 case 7:
-                    showStatistics();
+                    searchWorkout();
                     break;
                 case 8:
+                    showStatistics();
+                    break;
+                case 9:
                     System.out.println("Good bye");
                     return;
                 default:
@@ -65,10 +68,11 @@ public class Menu {
         System.out.println("2. View Workouts");
         System.out.println("3. Edit Workout");
         System.out.println("4. Edit Exercise");
-        System.out.println("5. Delete Workout");
-        System.out.println("6. Search Workout");
-        System.out.println("7. View Statistics");
-        System.out.println("8. Exit");
+        System.out.println("5. Edit Set");
+        System.out.println("6. Delete Workout");
+        System.out.println("7. Search Workout");
+        System.out.println("8. View Statistics");
+        System.out.println("9. Exit");
         System.out.print("Choice: ");
     }
 
@@ -372,6 +376,80 @@ public class Menu {
             System.out.println("Exercise updated successfully!");
         } else {
             System.out.println("Failed to update exercise.");
+        }
+    }
+
+    public void editWorkoutSet(){
+        if (tracker.getWorkoutCount() == 0) {
+            System.out.println("No workouts available.");
+            return;
+        }
+
+        for (int i = 0; i < tracker.getWorkoutCount(); i++) {
+            System.out.println(i + ". " + tracker.getWorkout(i).getWorkoutName());
+        }
+
+        System.out.println();
+        System.out.println("Enter workout number: ");
+        int index = getIntegerInput();
+        Workout workout = tracker.getWorkout(index);
+
+        if (workout == null) {
+            System.out.println("Invalid workout number");
+            return;
+        }
+
+        if(workout.getExercises().isEmpty()){
+            System.out.println("No exercises in this workout.");
+            return;
+        }
+
+        System.out.println("Current exercise(S)");
+        for(int i = 0; i < workout.getExercises().size(); i++){
+            System.out.println(i + ". " + workout.getExercises().get(i).getName());
+        }
+
+        System.out.println("Enter exercise number: ");
+        int exerciseChoice = getIntegerInput();
+
+        if(exerciseChoice < 0 || exerciseChoice >= workout.getExercises().size()){
+            System.out.println("Invalid exercise number.");
+            return;
+        }
+
+        Exercise exercise = workout.getExercises().get(exerciseChoice);
+
+        if(exercise.getSets().isEmpty()){
+            System.out.println("No set in this exercise.");
+            return;
+        }
+
+        System.out.println("Current set");
+        for(int i = 0; i < exercise.getSets().size(); i++){
+            WorkoutSet set = exercise.getSets().get(i);
+            System.out.println(i + ". " + set.getWeight() + " lbs x " + set.getReps()+ " reps");
+        }
+
+        System.out.println("Enter set number: ");
+        int setChoice = getIntegerInput();
+
+        if(setChoice < 0 || setChoice >= exercise.getSets().size()){
+            System.out.println("Invalid set number.");
+            return;
+        }
+
+        System.out.println("Enter the new weight: ");
+        double newWeight = getPositiveDoubleInput();
+
+        System.out.println("Enter the new reps: ");
+        int newReps = getPositiveIntegerInput();
+
+        boolean isEdit = tracker.editWorkoutSet(index, exerciseChoice, setChoice, newWeight, newReps);
+
+        if(isEdit){
+            System.out.println("Set updated successfully!");
+        } else {
+            System.out.println("Failed to update set.");
         }
     }
 }

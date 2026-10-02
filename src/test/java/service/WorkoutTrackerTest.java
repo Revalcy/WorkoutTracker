@@ -239,4 +239,29 @@ public class WorkoutTrackerTest {
         assertEquals(true, result);
         assertEquals("Shoulder Press", exercise.getName());
     }
+
+    @Test
+    void shouldEditWorkoutSet(){
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+        Exercise benchPress = new Exercise("Bench Press");
+        benchPress.addSet(new WorkoutSet(135, 10));
+        workout.addExercise(benchPress);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+
+        boolean result = tracker.editWorkoutSet(0, 0, 0, 185, 8);
+
+        assertEquals(true, result);
+        assertEquals(185, benchPress.getSets().get(0).getWeight());
+        assertEquals(8, benchPress.getSets().get(0).getReps());
+
+    }
 }
