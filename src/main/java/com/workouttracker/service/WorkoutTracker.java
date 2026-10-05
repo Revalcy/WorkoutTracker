@@ -245,4 +245,63 @@ public class WorkoutTracker {
             return false;
         }
     }
+
+    public double getHeaviestWeight(){
+        if(workouts.isEmpty()){
+            return 0.0;
+        }
+
+        double currentMax = 0.0;
+
+        for(Workout workout : workouts){
+            for(Exercise exercise : workout.getExercises()){
+                for(WorkoutSet set : exercise.getSets()){
+                    if(currentMax < set.getWeight()){
+                        currentMax = set.getWeight();
+                    }
+                }
+            }
+        }
+
+        return currentMax;
+    }
+
+    public double getBestWorkout(){
+        if(workouts.isEmpty()){
+            return 0;
+        }
+
+        double highestVolume = 0;
+
+        for(Workout workout : workouts){
+            if(highestVolume < workout.getWorkoutVolume()){
+                highestVolume = workout.getWorkoutVolume();
+            }
+        }
+
+        return highestVolume;
+    }
+
+    public double getHeaviestWeightByExercise(String exerciseName){
+        if(workouts.isEmpty()){
+            return 0.0;
+        }
+
+        double heaviestWeight = 0;
+
+        for(Workout workout : workouts){
+            for(Exercise exercise : workout.getExercises()){
+                if(exercise.getName().equals(exerciseName)){
+
+                    for(WorkoutSet set : exercise.getSets()){
+                        if(heaviestWeight < set.getWeight()){
+                            heaviestWeight = set.getWeight();
+                        }
+                    }
+                }
+            }
+        }
+
+        return heaviestWeight;
+    }
 }

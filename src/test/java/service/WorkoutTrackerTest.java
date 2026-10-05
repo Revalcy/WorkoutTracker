@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WorkoutTrackerTest {
     @Test
@@ -263,5 +265,160 @@ public class WorkoutTrackerTest {
         assertEquals(185, benchPress.getSets().get(0).getWeight());
         assertEquals(8, benchPress.getSets().get(0).getReps());
 
+    }
+
+    @Test
+    void shoudGetHeaviestWeight(){
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+        Exercise exercise1 = new Exercise("Bench Press");
+        exercise1.addSet(new WorkoutSet(135, 10));
+
+        Exercise exercise2 = new Exercise("Shoulder Press");
+        exercise2.addSet(new WorkoutSet(50, 10));
+
+        workout.addExercise(exercise1);
+        workout.addExercise(exercise2);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+        WorkoutTracker tracker2 = new WorkoutTracker(new ArrayList<>(), null);
+
+        assertEquals(135, tracker.getHeaviestWeight());
+        assertEquals(0.0, tracker2.getHeaviestWeight());
+
+    }
+
+    @Test
+    void shoudGetBestWorkout(){
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+        Exercise benchPress = new Exercise("Bench Press");
+        benchPress.addSet(new WorkoutSet(135, 10));
+
+        Exercise shoulderPress = new Exercise("Shoulder Press");
+        shoulderPress.addSet(new WorkoutSet(50, 10));
+
+        workout.addExercise(benchPress);
+        workout.addExercise(shoulderPress);
+
+        Workout workout2 = new Workout("Pull Day");
+        Exercise pullUp = new Exercise("Pull Up");
+        pullUp.addSet(new WorkoutSet(80, 6));
+
+        Exercise deadHang = new Exercise("Dead Hang");
+        deadHang.addSet(new WorkoutSet(80, 2));
+
+        workout2.addExercise(pullUp);
+        workout2.addExercise(deadHang);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+        workouts.add(workout2);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+
+        assertEquals(1850, tracker.getBestWorkout());
+    }
+
+    @Test
+    void shouldGetHeaviestWeightByExercise(){
+        Path filePath = Path.of("test-workouts.json");
+        ObjectMapper mapper = new ObjectMapper();
+
+        WorkoutStorage storage = new WorkoutStorage(mapper, filePath);
+
+        Workout workout = new Workout("Push Day");
+        Exercise benchPress = new Exercise("Bench Press");
+
+        benchPress.addSet(new WorkoutSet(135, 10));
+        benchPress.addSet(new WorkoutSet(155, 8));
+
+        workout.addExercise(benchPress);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, storage);
+
+        assertEquals(155, tracker.getHeaviestWeightByExercise("Bench Press"));
+    }
+
+    @Test
+    void shouldReturnFalseOnInvalidEditWorkoutIndex(){
+        Workout workout = new Workout("Push Day");
+
+        Exercise benchPress = new Exercise("Bench Press");
+        benchPress.addSet(new WorkoutSet(135, 10));
+        workout.addExercise(benchPress);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, null);
+
+        assertFalse(tracker.editWorkout(-1, "newName", LocalDate.now()));
+        assertFalse(tracker.editWorkout(99, "newName", LocalDate.now()));
+
+    }
+
+    @Test
+    void shouldReturnFalseOnInvalidEditExerciseIndex(){
+        Workout workout = new Workout("Push Day");
+
+        Exercise benchPress = new Exercise("Bench Press");
+        benchPress.addSet(new WorkoutSet(135, 10));
+        workout.addExercise(benchPress);
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, null);
+
+        assertFalse(tracker.editExercise(-1, 0, "newName"));
+        assertFalse(tracker.editExercise(99, 0, "newName"));
+
+        assertFalse(tracker.editExercise(0, 5, "newName"));
+
+    }
+
+    @Test 
+    void shouldReturnEmptyListWhenSearchByExerciseNotFound(){
+        Workout workout = new Workout("Push Day");
+        workout.addExercise(new Exercise("Bench Press"));
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, null);
+
+        List<Workout> result = tracker.searchByExercise("Squad");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test 
+    void shouldReturnEmptyListWhenSearchByDateNotFound(){
+        Workout workout = new Workout("Push Day");
+        workout.setDate(LocalDate.of(2026, 10,1));
+
+        List<Workout> workouts = new ArrayList<>();
+        workouts.add(workout);
+
+        WorkoutTracker tracker = new WorkoutTracker(workouts, null);
+
+        List<Workout> result = tracker.searchByDate(LocalDate.of(2026,10,05));
+
+        assertTrue(result.isEmpty());
     }
 }

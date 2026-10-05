@@ -221,6 +221,23 @@ public class Menu {
         System.out.println("Total volume: " + tracker.getTotalVolume());
         System.out.println("Average Workout Volume: " + tracker.getAverageWorkoutVolume());
         System.out.println("Most Performed Exercise: " + tracker.getMostPerformedExercise());
+        System.out.println("Heaviest Weight Lifted: " + tracker.getHeaviestWeight());
+        System.out.println("Best Workout Volume: " + tracker.getBestWorkout());
+
+        System.out.println("\nSearch heaviest weight by exercise?(y/n): ");
+        String answer = scanner.nextLine();
+
+        if(answer.equalsIgnoreCase("y")){
+            System.out.println("Enter exercise name: ");
+            String name = getNonEmptyInput();
+            double result = tracker.getHeaviestWeightByExercise(name);
+
+            if(result == 0){
+                System.out.println("No sets found for \"" + name + "\".");            
+            } else {
+                System.out.println("Heaviest weight for " + name + ": " + result + " lbs");
+            }
+        }
     }
 
     private int getIntegerInput() {
