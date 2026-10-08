@@ -1,18 +1,18 @@
 package model;
 
-import com.workouttracker.model.Exercise;
-import com.workouttracker.model.Workout;
-import com.workouttracker.model.WorkoutSet;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import com.workouttracker.model.Exercise;
+import com.workouttracker.model.Workout;
+import com.workouttracker.model.WorkoutSet;
 
 public class WorkoutTest {
     
     @Test
-    void shouldAddExercise(){
+    void shouldAddExercise() {
         Workout workout = new Workout("Push Day");
 
         Exercise exercise = new Exercise("Bench Press");
@@ -22,7 +22,7 @@ public class WorkoutTest {
     }
 
     @Test
-    void shouldCalculateWorkoutVolume(){
+    void shouldCalculateWorkoutVolume() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -40,7 +40,7 @@ public class WorkoutTest {
     }
 
     @Test 
-    void shouldStoreWorkoutNameAndDate(){
+    void shouldStoreWorkoutNameAndDate() {
         LocalDate date = LocalDate.of(2026, 8, 26);
 
         Workout workout = new Workout("Leg Day", date);

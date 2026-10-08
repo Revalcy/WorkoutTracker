@@ -1,22 +1,21 @@
 package service;
 
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workouttracker.model.Exercise;
 import com.workouttracker.model.Workout;
 import com.workouttracker.model.WorkoutSet;
 import com.workouttracker.service.WorkoutTracker;
 import com.workouttracker.storage.WorkoutStorage;
-
-import org.junit.jupiter.api.Test;
-
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WorkoutTrackerTest {
     @Test
@@ -243,7 +242,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldEditWorkoutSet(){
+    void shouldEditWorkoutSet() {
         Path filePath = Path.of("test-workouts.json");
         ObjectMapper mapper = new ObjectMapper();
 
@@ -268,7 +267,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shoudGetHeaviestWeight(){
+    void shouldGetHeaviestWeight() {
         Path filePath = Path.of("test-workouts.json");
         ObjectMapper mapper = new ObjectMapper();
 
@@ -296,7 +295,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shoudGetBestWorkout(){
+    void shouldGetBestWorkout() {
         Path filePath = Path.of("test-workouts.json");
         ObjectMapper mapper = new ObjectMapper();
 
@@ -332,7 +331,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldGetHeaviestWeightByExercise(){
+    void shouldGetHeaviestWeightByExercise() {
         Path filePath = Path.of("test-workouts.json");
         ObjectMapper mapper = new ObjectMapper();
 
@@ -355,7 +354,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldReturnFalseOnInvalidEditWorkoutIndex(){
+    void shouldReturnFalseOnInvalidEditWorkoutIndex() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -373,7 +372,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test
-    void shouldReturnFalseOnInvalidEditExerciseIndex(){
+    void shouldReturnFalseOnInvalidEditExerciseIndex() {
         Workout workout = new Workout("Push Day");
 
         Exercise benchPress = new Exercise("Bench Press");
@@ -393,7 +392,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test 
-    void shouldReturnEmptyListWhenSearchByExerciseNotFound(){
+    void shouldReturnEmptyListWhenSearchByExerciseNotFound() {
         Workout workout = new Workout("Push Day");
         workout.addExercise(new Exercise("Bench Press"));
 
@@ -408,7 +407,7 @@ public class WorkoutTrackerTest {
     }
 
     @Test 
-    void shouldReturnEmptyListWhenSearchByDateNotFound(){
+    void shouldReturnEmptyListWhenSearchByDateNotFound() {
         Workout workout = new Workout("Push Day");
         workout.setDate(LocalDate.of(2026, 10,1));
 

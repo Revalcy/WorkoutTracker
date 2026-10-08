@@ -1,23 +1,19 @@
 package com.workouttracker.model;
 
-public class WorkoutSet{
+public class WorkoutSet {
     private double weight;
     private int reps;
 
-    public WorkoutSet(double weight, int reps){
+    public WorkoutSet(double weight, int reps) {
         this.weight = weight;
         this.reps = reps;
     }
 
-    public WorkoutSet(){
-        
-    }
-
-    public double getWeight(){
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight){
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
@@ -25,12 +21,12 @@ public class WorkoutSet{
         return reps;
     }
 
-    public void setReps(int reps){
+    public void setReps(int reps) {
         this.reps = reps;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return weight + " lbs x " + reps + " reps";
     }
 }

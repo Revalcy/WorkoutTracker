@@ -19,6 +19,7 @@ The goal is to build a workout tracking application while improving programming 
 ## Current Features
 
 * Create and manage workouts
+* Edit workouts, exercises, and sets
 * Add exercises to workouts
 * Record workout sets with weight and repetitions
 * View saved workouts
@@ -32,10 +33,13 @@ The goal is to build a workout tracking application while improving programming 
 * Calculate total sets
 * Calculate average workout volume
 * Find the most performed exercise
+* Find the heaviest weight lifted
+* Find the best workout by total volume
+* Find the heaviest weight for a specific exercise
 * Validate user input
 * Save workout data to a JSON file
 * Load workout data when the application starts
-* Automatically update saved workout data when workouts are added or deleted
+* Automatically update saved workout data when workouts are added, edited, or deleted
 * Automated testing with JUnit 5
 
 ## Persistent Storage
@@ -76,6 +80,9 @@ The application provides several statistics to help analyze workout activity:
 * Total workout volume
 * Average workout volume
 * Most performed exercise
+* Heaviest weight lifted across all workouts
+* Best workout by total volume (PR workout day)
+* Heaviest weight lifted for a specific exercise
 
 Workout volume is calculated using:
 
@@ -116,12 +123,15 @@ The tests currently verify:
 * Calculating exercise volume
 * Calculating workout volume
 * Storing workout names and dates
-* Searching workouts
-* Calculating workout statistics
-* Finding the most performed exercise
+* Searching workouts by exercise and date
+* Calculating workout statistics (volume, averages, most performed)
+* Calculating advanced analytics (heaviest weight, best workout volume, heaviest by exercise)
+* Editing workouts, exercises, and sets
+* Verifying rollback behavior on storage write failures
+* Handling invalid indexes and edge cases
 * Saving and loading workouts from JSON
 
-The test suite currently contains 15 automated tests.
+The test suite currently contains 25 automated tests.
 
 Tests can be run with:
 
@@ -222,9 +232,9 @@ Version 2 added persistent JSON storage and improved workout statistics.
 * [x] Calculate average workout volume
 * [x] Find the most performed exercise
 
-**Version 3 — In Progress**
+**Version 3 — Completed**
 
-Version 3 focuses on workout management improvements, advanced analytics, and automated testing.
+Version 3 focused on workout management improvements, editing functionality, advanced analytics, and comprehensive automated testing.
 
 ### Version 3 Progress
 
@@ -240,15 +250,15 @@ Version 3 focuses on workout management improvements, advanced analytics, and au
 * [x] Add exercise and set editing functionality
 * [x] Add advanced workout analytics
 * [x] Add additional edge-case and error-handling tests
-* [ ] Refactor and clean up the project
-* [ ] Update documentation after Version 3 completion
+* [x] Refactor and clean up the project
+* [x] Update documentation after Version 3 completion
 
 ## Planned Features
 
 Future versions may include:
 
 * Add additional workout management features
-* Add database support
+* Add database support (SQLite or PostgreSQL)
 * Build a REST API with Spring Boot
-* Create a frontend application
-* Add advanced workout analytics
+* Create a web or mobile frontend application
+* Export workout logs and reports (CSV or PDF)

@@ -3,17 +3,15 @@ package com.workouttracker.service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.workouttracker.model.Exercise;
 import com.workouttracker.model.Workout;
-import com.workouttracker.storage.WorkoutStorage;
-
-import java.util.Collections;
-import java.util.HashMap;
-
 import com.workouttracker.model.WorkoutSet;
+import com.workouttracker.storage.WorkoutStorage;
 
 public class WorkoutTracker {
     private List<Workout> workouts;
@@ -168,11 +166,13 @@ public class WorkoutTracker {
         if (index < 0 || index >= workouts.size()) {
             return false;
         }
+
         Workout workout = workouts.get(index);
         String oldName = workout.getWorkoutName();
         LocalDate oldDate = workout.getDate();
         workout.setWorkoutName(newName);
         workout.setDate(newDate);
+
         try {
             storage.saveJson(workouts);
             return true;
@@ -188,13 +188,17 @@ public class WorkoutTracker {
         if (workoutIndex < 0 || workoutIndex >= getWorkoutCount()) {
             return false;
         }
+
         Workout workout = getWorkout(workoutIndex);
+
         if (exerciseIndex < 0 || exerciseIndex >= workout.getExercises().size()) {
             return false;
         }
+
         Exercise exercise = workout.getExercises().get(exerciseIndex);
         String oldName = exercise.getName();
         exercise.setName(newName);
+
         try {
             storage.saveJson(workouts);
             return true;
@@ -205,25 +209,25 @@ public class WorkoutTracker {
         }
     }
 
-    public boolean editWorkoutSet(int workoutIndex, int exerciseIndex, int workoutSetIndex, double newWeights, int newReps){
+    public boolean editWorkoutSet(int workoutIndex, int exerciseIndex, int workoutSetIndex, double newWeights, int newReps) {
 
-        if(workoutIndex < 0 || workoutIndex >= getWorkoutCount()){
+        if (workoutIndex < 0 || workoutIndex >= getWorkoutCount()) {
             return false;
         }
 
         Workout workout = getWorkout(workoutIndex);
 
-        if(exerciseIndex < 0 || exerciseIndex >= workout.getExercises().size()){
+        if (exerciseIndex < 0 || exerciseIndex >= workout.getExercises().size()) {
             return false;
         }
 
         Exercise exercise = workout.getExercises().get(exerciseIndex);
 
-        if(workoutSetIndex < 0 || workoutSetIndex >= exercise.getSets().size()){
+        if (workoutSetIndex < 0 || workoutSetIndex >= exercise.getSets().size()) {
             return false;
         }
 
-        if(newWeights <= 0 || newReps <= 0){
+        if (newWeights <= 0 || newReps <= 0) {
             return false;
         }
 
@@ -235,10 +239,10 @@ public class WorkoutTracker {
         workoutSet.setWeight(newWeights);
         workoutSet.setReps(newReps);
 
-        try{
+        try {
             storage.saveJson(workouts);
             return true;
-        } catch(IOException e){
+        } catch(IOException e) {
             workoutSet.setWeight(oldWeights);
             workoutSet.setReps(oldReps);
             System.out.println("Failed to update save file: " + e.getMessage());
@@ -246,17 +250,17 @@ public class WorkoutTracker {
         }
     }
 
-    public double getHeaviestWeight(){
-        if(workouts.isEmpty()){
+    public double getHeaviestWeight() {
+        if (workouts.isEmpty()) {
             return 0.0;
         }
 
         double currentMax = 0.0;
 
-        for(Workout workout : workouts){
-            for(Exercise exercise : workout.getExercises()){
-                for(WorkoutSet set : exercise.getSets()){
-                    if(currentMax < set.getWeight()){
+        for (Workout workout : workouts) {
+            for (Exercise exercise : workout.getExercises()) {
+                for (WorkoutSet set : exercise.getSets()) {
+                    if (currentMax < set.getWeight()) {
                         currentMax = set.getWeight();
                     }
                 }
@@ -266,15 +270,15 @@ public class WorkoutTracker {
         return currentMax;
     }
 
-    public double getBestWorkout(){
-        if(workouts.isEmpty()){
-            return 0;
+    public double getBestWorkout() {
+        if (workouts.isEmpty()) {
+            return 0.0;
         }
 
-        double highestVolume = 0;
+        double highestVolume = 0.0;
 
-        for(Workout workout : workouts){
-            if(highestVolume < workout.getWorkoutVolume()){
+        for (Workout workout : workouts) {
+            if (highestVolume < workout.getWorkoutVolume()) {
                 highestVolume = workout.getWorkoutVolume();
             }
         }
@@ -282,19 +286,19 @@ public class WorkoutTracker {
         return highestVolume;
     }
 
-    public double getHeaviestWeightByExercise(String exerciseName){
-        if(workouts.isEmpty()){
+    public double getHeaviestWeightByExercise(String exerciseName) {
+        if (workouts.isEmpty()) {
             return 0.0;
         }
 
-        double heaviestWeight = 0;
+        double heaviestWeight = 0.0;
 
-        for(Workout workout : workouts){
-            for(Exercise exercise : workout.getExercises()){
-                if(exercise.getName().equals(exerciseName)){
+        for (Workout workout : workouts) {
+            for (Exercise exercise : workout.getExercises()) {
+                if (exercise.getName().equalsIgnoreCase(exerciseName)) {
 
-                    for(WorkoutSet set : exercise.getSets()){
-                        if(heaviestWeight < set.getWeight()){
+                    for (WorkoutSet set : exercise.getSets()) {
+                        if (heaviestWeight < set.getWeight()) {
                             heaviestWeight = set.getWeight();
                         }
                     }

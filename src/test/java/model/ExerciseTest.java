@@ -1,15 +1,15 @@
 package model;
 
-import com.workouttracker.model.Exercise;
-import com.workouttracker.model.WorkoutSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.workouttracker.model.Exercise;
+import com.workouttracker.model.WorkoutSet;
 
 public class ExerciseTest {
     
     @Test
-    void shouldAddSet(){
+    void shouldAddSet() {
         Exercise exercise = new Exercise("Bench Press");
 
         WorkoutSet set = new WorkoutSet(135, 10);
@@ -19,7 +19,7 @@ public class ExerciseTest {
     }
 
     @Test
-    void shouldCalculateTotalVolume(){
+    void shouldCalculateTotalVolume() {
         Exercise exercise = new Exercise("Bench Press");
 
         WorkoutSet set1 = new WorkoutSet(135, 10);

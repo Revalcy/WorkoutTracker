@@ -2,11 +2,10 @@ package com.workouttracker.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Collections;
 
 public class Workout {
     private LocalDate date;
@@ -16,52 +15,48 @@ public class Workout {
     @JsonIgnore
     private double workoutVolume;
 
-    public Workout(String workoutName, LocalDate date){
+    public Workout(String workoutName, LocalDate date) {
         this.workoutName = workoutName;
         this.date = date;
         this.exercises = new ArrayList<>();
     }
 
-    public Workout(String workoutName){
+    public Workout(String workoutName) {
         this(workoutName, LocalDate.now());
     }
 
-    public Workout(){
-
-    }
-
-    public String getWorkoutName(){
+    public String getWorkoutName() {
         return workoutName;
     }
 
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date){
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public List<Exercise> getExercises(){
+    public List<Exercise> getExercises() {
         return Collections.unmodifiableList(exercises);
     }
 
-    public void setWorkoutName(String workoutName){
+    public void setWorkoutName(String workoutName) {
         this.workoutName = workoutName;
     }
 
-    public void addExercise(Exercise exercise){
+    public void addExercise(Exercise exercise) {
         exercises.add(exercise);
     }
 
-    public void removeExercise(int index){
+    public void removeExercise(int index) {
         exercises.remove(index);
     }
 
-    public double getWorkoutVolume(){
+    public double getWorkoutVolume() {
         double workoutVolume = 0;
 
-        for(Exercise exercise : exercises){
+        for (Exercise exercise : exercises) {
             workoutVolume += exercise.getTotalVolume();
         }
 
@@ -69,7 +64,7 @@ public class Workout {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return workoutName;
     }
 }

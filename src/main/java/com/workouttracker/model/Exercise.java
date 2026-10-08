@@ -11,39 +11,35 @@ public class Exercise {
     @JsonIgnore 
     private double totalVolume;
 
-    public Exercise(String name){
+    public Exercise(String name) {
         this.name = name;
         sets = new ArrayList<>();
     }
 
-    public Exercise(){
-
-    }
-
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public ArrayList<WorkoutSet> getSets(){
+    public ArrayList<WorkoutSet> getSets() {
         return sets;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void addSet(WorkoutSet set){
+    public void addSet(WorkoutSet set) {
         sets.add(set);
     }
 
-    public void removeSet(int index){
+    public void removeSet(int index) {
         sets.remove(index);
     }
 
-    public double getTotalVolume(){
+    public double getTotalVolume() {
         double totalVolume = 0;
 
-        for(WorkoutSet set : sets){
+        for (WorkoutSet set : sets) {
             totalVolume += set.getWeight() * set.getReps();
         }
 
@@ -51,7 +47,7 @@ public class Exercise {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

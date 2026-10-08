@@ -15,7 +15,7 @@ public class WorkoutStorage {
     private Path filePath;
     
 
-    public WorkoutStorage(ObjectMapper mapper, Path filePath){
+    public WorkoutStorage(ObjectMapper mapper, Path filePath) {
         this.mapper = mapper;
         this.filePath = filePath;
         
@@ -24,18 +24,18 @@ public class WorkoutStorage {
 
     }
 
-    public String toJson(List<Workout> workouts)throws IOException{
+    public String toJson(List<Workout> workouts)throws IOException {
         String jsonString = mapper.writeValueAsString(workouts);
         return jsonString;
     }
 
-    public void saveJson(List<Workout> workouts)throws IOException{
+    public void saveJson(List<Workout> workouts)throws IOException {
         String jsonString = toJson(workouts);
 
         Files.writeString(filePath, jsonString);
     }
 
-    public List<Workout> toList()throws IOException{
+    public List<Workout> toList()throws IOException {
         String content = Files.readString(filePath);
 
         List<Workout> workouts = mapper.readValue(content, new TypeReference<List<Workout>>() {});

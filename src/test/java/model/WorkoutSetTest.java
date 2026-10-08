@@ -1,14 +1,14 @@
 package model;
 
-import com.workouttracker.model.WorkoutSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.workouttracker.model.WorkoutSet;
 
 public class WorkoutSetTest { 
     
     @Test
-    void shouldStoreWeightAndReps(){
+    void shouldStoreWeightAndReps() {
         WorkoutSet set = new WorkoutSet(135, 10);
 
         assertEquals(135, set.getWeight());

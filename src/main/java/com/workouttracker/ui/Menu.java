@@ -1,5 +1,7 @@
 package com.workouttracker.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,9 +9,6 @@ import com.workouttracker.model.Exercise;
 import com.workouttracker.model.Workout;
 import com.workouttracker.model.WorkoutSet;
 import com.workouttracker.service.WorkoutTracker;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 public class Menu {
     private Scanner scanner;
@@ -227,12 +226,12 @@ public class Menu {
         System.out.println("\nSearch heaviest weight by exercise?(y/n): ");
         String answer = scanner.nextLine();
 
-        if(answer.equalsIgnoreCase("y")){
+        if (answer.equalsIgnoreCase("y")) {
             System.out.println("Enter exercise name: ");
             String name = getNonEmptyInput();
             double result = tracker.getHeaviestWeightByExercise(name);
 
-            if(result == 0){
+            if (result == 0) {
                 System.out.println("No sets found for \"" + name + "\".");            
             } else {
                 System.out.println("Heaviest weight for " + name + ": " + result + " lbs");
@@ -366,20 +365,20 @@ public class Menu {
             return;
         }
 
-        if(workout.getExercises().isEmpty()){
+        if (workout.getExercises().isEmpty()) {
             System.out.println("No exercises in this workout.");
             return;
         }
 
         System.out.println("Current exercise(S)");
-        for(int i = 0; i < workout.getExercises().size(); i++){
+        for (int i = 0; i < workout.getExercises().size(); i++) {
             System.out.println(i + ". " + workout.getExercises().get(i).getName());
         }
 
         System.out.println("Enter exercise number: ");
         int choice = getIntegerInput();
 
-        if(choice < 0 || choice >= workout.getExercises().size()){
+        if (choice < 0 || choice >= workout.getExercises().size()) {
             System.out.println("Invalid exercise number.");
             return;
         }
@@ -389,7 +388,7 @@ public class Menu {
 
         boolean isEdit = tracker.editExercise(index, choice, newName);
 
-        if(isEdit){
+        if (isEdit) {
             System.out.println("Exercise updated successfully!");
         } else {
             System.out.println("Failed to update exercise.");
@@ -416,33 +415,33 @@ public class Menu {
             return;
         }
 
-        if(workout.getExercises().isEmpty()){
+        if (workout.getExercises().isEmpty()) {
             System.out.println("No exercises in this workout.");
             return;
         }
 
         System.out.println("Current exercise(S)");
-        for(int i = 0; i < workout.getExercises().size(); i++){
+        for (int i = 0; i < workout.getExercises().size(); i++) {
             System.out.println(i + ". " + workout.getExercises().get(i).getName());
         }
 
         System.out.println("Enter exercise number: ");
         int exerciseChoice = getIntegerInput();
 
-        if(exerciseChoice < 0 || exerciseChoice >= workout.getExercises().size()){
+        if (exerciseChoice < 0 || exerciseChoice >= workout.getExercises().size()) {
             System.out.println("Invalid exercise number.");
             return;
         }
 
         Exercise exercise = workout.getExercises().get(exerciseChoice);
 
-        if(exercise.getSets().isEmpty()){
+        if (exercise.getSets().isEmpty()) {
             System.out.println("No set in this exercise.");
             return;
         }
 
         System.out.println("Current set");
-        for(int i = 0; i < exercise.getSets().size(); i++){
+        for (int i = 0; i < exercise.getSets().size(); i++) {
             WorkoutSet set = exercise.getSets().get(i);
             System.out.println(i + ". " + set.getWeight() + " lbs x " + set.getReps()+ " reps");
         }
@@ -450,7 +449,7 @@ public class Menu {
         System.out.println("Enter set number: ");
         int setChoice = getIntegerInput();
 
-        if(setChoice < 0 || setChoice >= exercise.getSets().size()){
+        if (setChoice < 0 || setChoice >= exercise.getSets().size()) {
             System.out.println("Invalid set number.");
             return;
         }
@@ -463,7 +462,7 @@ public class Menu {
 
         boolean isEdit = tracker.editWorkoutSet(index, exerciseChoice, setChoice, newWeight, newReps);
 
-        if(isEdit){
+        if (isEdit) {
             System.out.println("Set updated successfully!");
         } else {
             System.out.println("Failed to update set.");
